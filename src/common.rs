@@ -197,6 +197,49 @@ pub struct ProviderMetadata {
     pub date_updated: Option<Timestamp>,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ProblemType {
+    pub descriptions: Vec<ProblemTypeDescription>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ProblemTypeDescription {
+    #[serde(rename = "lang")]
+    pub language: String,
+
+    /// Text description of problemType, or title from CWE or OWASP.
+    pub description: String,
+
+    /// CWE ID of the CWE that best describes this problemType entry.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cwe_id: Option<String>,
+
+    /// Problemtype source, text, OWASP, CWE, etc.,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub r#type: Option<String>,
+
+    /// This is reference data in the form of URLs or file objects (uuencoded and embedded within the JSON file, exact format to be decided, e.g. we may require a compressed format so the objects require unpacking before they are \"dangerous\").
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub references: Vec<Reference>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Reference {
+    /// The uniform resource locator (URL), according to [RFC 3986](https://tools.ietf.org/html/rfc3986#section-1.1.3), that can be used to retrieve the referenced resource.
+    pub url: String,
+
+    /// User created name for the reference, often the title of the page.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub name: Option<String>,
+
+    /// An array of one or more tags that describe the resource referenced by 'url'.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub tags: Vec<String>,
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -218,13 +261,13 @@ mod test {
 
     #[test]
     fn write_version() {
-        let json = serde_json::to_value(Version::Range {
+        let json = serde_json::to_value(Version::Range(Range {
             range: VersionRange::LessThan("5.7".to_string()),
             version_type: "custom".to_string(),
             version: "unspecified".to_string(),
             status: Status::Affected,
             changes: vec![],
-        })
+        }))
         .unwrap();
 
         assert_eq!(

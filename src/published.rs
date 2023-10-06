@@ -1,6 +1,6 @@
 use super::state::ConstValue;
 use super::*;
-use crate::common::{Description, Product};
+use crate::common::{Description, ProblemType, Product};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::ops::{Deref, DerefMut};
 
@@ -84,6 +84,10 @@ pub struct CnaContainer {
 
     /// List of affected products.
     pub affected: Vec<Product>,
+
+    /// This is problem type information (e.g. CWE identifier). Must contain: At least one entry, can be text, OWASP, CWE, please note that while only one is required you can use more than one (or indeed all three) as long as they are correct). (CNA requirement: [PROBLEMTYPE]).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub problem_types: Vec<ProblemType>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
