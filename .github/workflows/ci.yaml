@@ -50,7 +50,7 @@ jobs:
       - name: Clone test data
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/CVEProject/cvelistV5.git
+          repository: CVEProject/cvelistV5
 
       - name: Test against CVE database
         env:
