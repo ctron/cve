@@ -97,7 +97,9 @@ impl<'de> Deserialize<'de> for Timestamp {
                     return Ok(result.into());
                 }
 
-                Err(E::custom(format!("unable to parse '{v}' as ISO 8601 timestamp")))
+                Err(E::custom(format!(
+                    "unable to parse '{v}' as ISO 8601 timestamp"
+                )))
             }
         }
 
@@ -113,7 +115,8 @@ mod test {
     #[test]
     pub fn serialize_timestamp_offset() {
         assert_eq!(
-            &serde_json::to_string(&Timestamp::from(datetime!(2020-01-02 12:34 ).assume_utc())).unwrap(),
+            &serde_json::to_string(&Timestamp::from(datetime!(2020-01-02 12:34 ).assume_utc()))
+                .unwrap(),
             r#""2020-01-02T12:34:00.000Z""#
         );
 
