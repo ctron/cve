@@ -18,6 +18,19 @@ pub enum Cve {
     Rejected(Rejected),
 }
 
+impl Cve {
+    pub fn id(&self) -> &str {
+        &self.common_metadata().id
+    }
+
+    pub fn common_metadata(&self) -> &common::Metadata {
+        match self {
+            Self::Published(cve) => &cve.metadata.common,
+            Self::Rejected(cve) => &cve.metadata.common,
+        }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Published {
