@@ -90,7 +90,7 @@ mod test {
     "datePublished": "2019-11-15T14:19:48",
     "dateReserved": "2013-12-12T00:00:00",
     "dateUpdated": "2019-11-15T14:19:48",
-    "state": "PUBLISHED"
+    "state": "REJECTED"
 }
 "#;
         let _metadata: Metadata = serde_json::from_str(input).unwrap();
