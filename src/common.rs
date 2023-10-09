@@ -237,8 +237,10 @@ pub struct Reference {
 
     /// An array of one or more tags that describe the resource referenced by 'url'.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    pub tags: Vec<String>,
+    pub tags: Vec<Tag>,
 }
+
+pub type Tag = String;
 
 #[cfg(test)]
 mod test {
