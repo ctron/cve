@@ -51,6 +51,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: CVEProject/cvelistV5
+          path: cvelistV5
 
       - name: Test against CVE database
         env:
