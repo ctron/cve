@@ -51,6 +51,8 @@ fn main() -> anyhow::Result<()> {
             .unwrap(),
     );
 
+    let num = files.len();
+
     files
         .into_par_iter()
         .progress_with(pb)
@@ -58,6 +60,8 @@ fn main() -> anyhow::Result<()> {
             process(&file)?;
             Ok::<_, anyhow::Error>(())
         })?;
+
+    log::info!("Successfully parsed {num} documents");
 
     Ok(())
 }
