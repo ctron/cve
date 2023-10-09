@@ -24,6 +24,8 @@ jobs:
 
   check:
     runs-on: ubuntu-22.04
+    needs:
+      - fmt
     steps:
       - uses: actions/checkout@v4
 
