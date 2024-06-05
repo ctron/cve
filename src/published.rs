@@ -309,6 +309,7 @@ pub struct AdpContainer {
     pub provider_metadata: ProviderMetadata,
 
     /// If known, the date/time the vulnerability was disclosed publicly.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub date_public: Option<Timestamp>,
 
     /// A title, headline, or a brief phrase summarizing the information in an ADP container.
@@ -316,9 +317,11 @@ pub struct AdpContainer {
     pub title: Option<String>,
 
     /// A list of multi-lingual descriptions of the vulnerability. E.g., [PROBLEMTYPE] in [COMPONENT] in [VENDOR] [PRODUCT] [VERSION] on [PLATFORMS] allows [ATTACKER] to [IMPACT] via [VECTOR]. OR [COMPONENT] in [VENDOR] [PRODUCT] [VERSION] [ROOT CAUSE], which allows [ATTACKER] to [IMPACT] via [VECTOR].
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub descriptions: Vec<Description>,
 
     /// List of affected products.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub affected: Vec<Product>,
 
     /// This is problem type information (e.g. CWE identifier). Must contain: At least one entry, can be text, OWASP, CWE, please note that while only one is required you can use more than one (or indeed all three) as long as they are correct). (CNA requirement: [PROBLEMTYPE]).
