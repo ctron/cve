@@ -5,10 +5,11 @@ use indicatif_log_bridge::LogWrapper;
 use rayon::prelude::*;
 use std::ffi::OsStr;
 use std::path::Path;
+use std::process::ExitCode;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use walkdir::WalkDir;
 
-fn main() -> anyhow::Result<()> {
+fn main() -> anyhow::Result<ExitCode> {
     let logger =
         env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("info")).build();
     let multi = MultiProgress::new();
@@ -53,17 +54,23 @@ fn main() -> anyhow::Result<()> {
 
     let num = files.len();
 
-    files
-        .into_par_iter()
-        .progress_with(pb)
-        .try_for_each(|file| {
-            process(&file)?;
-            Ok::<_, anyhow::Error>(())
-        })?;
+    let counter = AtomicUsize::default();
+
+    files.into_par_iter().progress_with(pb).for_each(|file| {
+        if process(&file).is_err() {
+            counter.fetch_add(1, Ordering::SeqCst);
+        };
+    });
 
     log::info!("Successfully parsed {num} documents");
+    let failed = counter.load(Ordering::SeqCst);
 
-    Ok(())
+    Ok(if failed > 0 {
+        log::error!("{failed} documents failed to parse");
+        ExitCode::FAILURE
+    } else {
+        ExitCode::SUCCESS
+    })
 }
 
 fn process(path: &Path) -> anyhow::Result<()> {
