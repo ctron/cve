@@ -16,6 +16,18 @@ on:
 
 jobs:
 
+  msrv:
+    runs-on: ubuntu-latest
+    outputs:
+      rust-version: ${{ steps.get-version.outputs.rust-version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract version
+        id: get-version
+        run: |
+          MSRV=$(cargo metadata --no-deps --format-version=1 | jq -r '.packages[0].rust_version')
+          echo "rust-version=$MSRV" >> $GITHUB_OUTPUT
+
   preflight:
     runs-on: ubuntu-latest
     steps:
@@ -32,6 +44,7 @@ jobs:
 
   check:
     needs:
+      - msrv
       - preflight
 
     strategy:
@@ -39,7 +52,7 @@ jobs:
 
         rust:
           - stable
-          - "1.70.0" # MSRV
+          - ${{ needs.msrv.outputs.rust-version }}
 
         os:
           - ubuntu-22.04
