@@ -17,7 +17,7 @@ on:
 jobs:
 
   common:
-    uses: scm-rs/shared-workflows/.github/workflows/ci.yml@main
+    uses: scm-rs/shared-workflows/.github/workflows/ci.yaml@main
 
   test:
     runs-on: ubuntu-22.04
