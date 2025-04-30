@@ -16,39 +16,72 @@ on:
 
 jobs:
 
-  fmt:
-    runs-on: ubuntu-22.04
+  preflight:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: webiny/action-conventional-commits@v1.3.0
+
+      - uses: Swatinem/rust-cache@v2
+      - uses: obi1kenobi/cargo-semver-checks-action@v2
 
       - name: Check formatting
         run: |
           cargo fmt --check
 
   check:
-    runs-on: ubuntu-22.04
     needs:
-      - fmt
+      - preflight
+
+    strategy:
+      matrix:
+
+        rust:
+          - stable
+          - "1.70.0" # MSRV
+
+        os:
+          - ubuntu-22.04
+          - windows-2022
+          - macos-14
+
+    runs-on: ${{ matrix.os }}
+
     steps:
       - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
 
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/.crates.toml
-            ~/.cargo/.crates2.json
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-${{ matrix.rust }}-${{ hashFiles('**/Cargo.toml') }}
+      - name: Install Rust ${{ matrix.rust }}
+        run: |
+          rustup install ${{ matrix.rust }} --no-self-update
 
-      - name: Check
-        run: cargo check
+      - name: Clippy
+        run: cargo +${{ matrix.rust }} clippy --all-targets --tests --bins --all -- -D warnings
 
       - name: Test
-        run: cargo test
+        run: cargo +${{ matrix.rust }} test
+
+      - name: Install binstall
+        run: |
+          curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+
+      - name: Install cargo-all-features
+        run: |
+          cargo binstall -y cargo-all-features
+
+      - name: Check (all features)
+        run: |
+          cargo check-all-features
+
+  test:
+    runs-on: ubuntu-22.04
+    needs:
+      - preflight
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
 
       - name: Clone test data
         uses: actions/checkout@v4
@@ -60,3 +93,17 @@ jobs:
         env:
           CVE_BASE_DIR: ${{github.workspace}}/cvelistV5
         run: cargo run --example walkall
+
+  ci:
+    runs-on: ubuntu-22.04
+    needs:
+      - test
+      - check
+    if: always()
+    steps:
+      - name: Success
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: exit 0
+      - name: Failure
+        if: ${{ contains(needs.*.result, 'failure') }}
+        run: exit 1
