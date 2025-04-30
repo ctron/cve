@@ -1,6 +1,6 @@
 # cve
 
-[![CI](https://github.com/ctron/cve/actions/workflows/ci.yaml/badge.svg)](https://github.com/ctron/cve/actions/workflows/ci.yaml)
+[![CI](https://github.com/scm-rs/cve/actions/workflows/ci.yaml/badge.svg)](https://github.com/scm-rs/cve/actions/workflows/ci.yaml)
 [![crates.io](https://img.shields.io/crates/v/cve.svg)](https://crates.io/crates/cve)
 [![docs.rs](https://docs.rs/cve/badge.svg)](https://docs.rs/cve)
 
