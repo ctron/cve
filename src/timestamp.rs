@@ -79,7 +79,7 @@ impl<'de> Deserialize<'de> for Timestamp {
     {
         struct TimestampVisitor;
 
-        impl<'de> Visitor<'de> for TimestampVisitor {
+        impl Visitor<'_> for TimestampVisitor {
             type Value = Timestamp;
 
             fn expecting(&self, formatter: &mut Formatter) -> std::fmt::Result {

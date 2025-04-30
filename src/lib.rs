@@ -11,6 +11,7 @@ use std::num::NonZeroUsize;
 #[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
 pub enum Cve {
     #[serde(rename_all = "camelCase")]
     Published(Published),
@@ -81,7 +82,7 @@ mod state {
 
     pub struct ConstValue(pub &'static str);
 
-    impl<'de> Visitor<'de> for ConstValue {
+    impl Visitor<'_> for ConstValue {
         type Value = ();
 
         fn expecting(&self, formatter: &mut Formatter) -> std::fmt::Result {

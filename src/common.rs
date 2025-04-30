@@ -180,7 +180,7 @@ pub struct SupportingMedia {
 }
 
 pub fn is_false(value: &bool) -> bool {
-    *value == false
+    !(*value)
 }
 
 /// Details related to the information container provider (CNA or ADP).
