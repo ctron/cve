@@ -54,7 +54,7 @@ jobs:
 
       - name: Install Rust ${{ matrix.rust }}
         run: |
-          rustup install ${{ matrix.rust }} --no-self-update
+          rustup install ${{ matrix.rust }} --no-self-update --component clippy
 
       - name: Clippy
         run: cargo +${{ matrix.rust }} clippy --all-targets --tests --bins --all -- -D warnings
