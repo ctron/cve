@@ -79,9 +79,7 @@ fn process(path: &Path) -> anyhow::Result<()> {
         None => return Ok(()),
     };
 
-    // log::info!("{}: {}", cve, path.display());
-
-    let content = std::fs::read(&path)?;
+    let content = std::fs::read(path)?;
 
     let cve: Cve = match serde_json::from_slice(&content) {
         Ok(cve) => cve,
