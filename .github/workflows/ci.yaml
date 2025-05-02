@@ -18,6 +18,8 @@ jobs:
 
   common:
     uses: scm-rs/shared-workflows/.github/workflows/ci.yaml@main
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   test:
     runs-on: ubuntu-22.04
