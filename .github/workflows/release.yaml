@@ -9,11 +9,8 @@ jobs:
 
   ci:
     uses: ./.github/workflows/ci.yaml
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release:
     uses: scm-rs/shared-workflows/.github/workflows/release.yaml@main
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
