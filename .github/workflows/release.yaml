@@ -1,0 +1,19 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+
+  ci:
+    uses: ./.github/workflows/ci.yaml
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    uses: scm-rs/shared-workflows/.github/workflows/release.yaml@main
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CRATES_IO_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
