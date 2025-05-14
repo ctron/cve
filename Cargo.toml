@@ -9,7 +9,7 @@ repository = "https://github.com/scm-rs/cve"
 categories = ["data-structures"]
 keywords = ["cve", "json", "serde"]
 readme = "README.md"
-rust-version = "1.81" # due to litemap
+rust-version = "1.82" # due to icu, litemap, zerotrie, zerovec
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
