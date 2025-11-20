@@ -248,6 +248,7 @@ fn is_default_credit_type(value: &CreditType) -> bool {
 /// Type or role of the entity being credited.
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "lowercase")]
+#[non_exhaustive]
 pub enum CreditType {
     /// identifies the vulnerability.
     #[default]
