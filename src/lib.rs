@@ -53,7 +53,7 @@ pub struct Rejected {
 }
 
 const fn default_serial() -> NonZeroUsize {
-    unsafe { NonZeroUsize::new_unchecked(1) }
+    NonZeroUsize::new(1).unwrap()
 }
 
 fn is_default_serial(value: &NonZeroUsize) -> bool {

@@ -44,14 +44,14 @@ impl Serialize for Timestamp {
     {
         const OFFSET_FORMAT: EncodedConfig = Config::DEFAULT
             .set_time_precision(TimePrecision::Second {
-                decimal_digits: Some(unsafe { NonZeroU8::new_unchecked(3) }),
+                decimal_digits: Some(NonZeroU8::new(3).unwrap()),
             })
             .encode();
 
         const PRIMITIVE_FORMAT: EncodedConfig = Config::DEFAULT
             .set_formatted_components(FormattedComponents::DateTime)
             .set_time_precision(TimePrecision::Second {
-                decimal_digits: Some(unsafe { NonZeroU8::new_unchecked(3) }),
+                decimal_digits: Some(NonZeroU8::new(3).unwrap()),
             })
             .encode();
 
