@@ -29,11 +29,11 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: Swatinem/rust-cache@v2
 
       - name: Clone test data
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: CVEProject/cvelistV5
           path: cvelistV5
