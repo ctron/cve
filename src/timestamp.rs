@@ -1,11 +1,11 @@
-use serde::{de::Visitor, ser::Error, Deserialize, Deserializer, Serialize, Serializer};
+use serde::{Deserialize, Deserializer, Serialize, Serializer, de::Visitor, ser::Error};
 use std::{fmt::Formatter, num::NonZeroU8};
 use time::{
-    format_description::well_known::{
-        iso8601::{Config, EncodedConfig, FormattedComponents, TimePrecision},
-        Iso8601,
-    },
     OffsetDateTime, PrimitiveDateTime,
+    format_description::well_known::{
+        Iso8601,
+        iso8601::{Config, EncodedConfig, FormattedComponents, TimePrecision},
+    },
 };
 
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
