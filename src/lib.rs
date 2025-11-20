@@ -62,6 +62,7 @@ fn is_default_serial(value: &NonZeroUsize) -> bool {
 
 #[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "UPPERCASE")]
+#[non_exhaustive] // NOTE: once we reach 6.x, we need a breaking version
 pub enum DataVersion {
     #[serde(rename = "5.0")]
     V5_0,
