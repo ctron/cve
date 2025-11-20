@@ -1,7 +1,7 @@
 [package]
 name = "cve"
-version = "0.4.1"
-edition = "2021"
+version = "0.5.0"
+edition = "2024"
 license = "Apache-2.0"
 description = "Mappings for parsing the CVE JSON files"
 authors = ["Jens Reimann <ctron@dentrassi.de>"]
@@ -9,7 +9,7 @@ repository = "https://github.com/scm-rs/cve"
 categories = ["data-structures"]
 keywords = ["cve", "json", "serde"]
 readme = "README.md"
-rust-version = "1.82" # due to icu, litemap, zerotrie, zerovec
+rust-version = "1.85"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
