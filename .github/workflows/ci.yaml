@@ -28,7 +28,7 @@ jobs:
     uses: scm-rs/shared-workflows/.github/workflows/ci.yaml@main
 
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v5
@@ -46,7 +46,7 @@ jobs:
         run: cargo run --example walkall
 
   ci:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     needs:
       - common
       - test
