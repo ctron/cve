@@ -9,6 +9,8 @@ on:
   pull_request:
   # Allow to be called from other workflows (like "release")
   workflow_call:
+  # Allow to manuall trigger this
+  workflow_dispatch:
   merge_group:
     types:
       - checks_requested
