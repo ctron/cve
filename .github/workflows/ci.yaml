@@ -9,7 +9,7 @@ on:
   pull_request:
   # Allow to be called from other workflows (like "release")
   workflow_call:
-  # Allow to manuall trigger this
+  # Allow to manually trigger this
   workflow_dispatch:
   merge_group:
     types:
